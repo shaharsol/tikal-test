@@ -6,7 +6,7 @@ const util = require('util')
 
 missions.empty(db)
 .then((result) => {
-  missions.load(db,[
+  return missions.load(db,[
      {
         agent: '007',
         country: 'Brazil',
@@ -68,13 +68,9 @@ missions.empty(db)
         date: 'Dec 1, 2016, 9:21:21 PM'
      }
   ])
-  .then((data) => {
-    console.log('success')
-  })
-  .catch((err) => {
-    console.log(err)
-  })
-
+})
+.then(() => {
+  console.log('success')
 })
 .catch((err) => {
   console.log(err)
