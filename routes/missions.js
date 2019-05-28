@@ -8,7 +8,6 @@ const missions = require('../models/missions')
 router.get('/countries-by-isolation', function(req, res, next) {
   missions.getMostIsolatedCountry(req.db)
   .then((data) => {
-    console.log(util.inspect(data))
     res.json({
       country: data[0]._id,
       isolation_level: data[0].count

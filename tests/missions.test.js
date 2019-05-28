@@ -4,9 +4,9 @@ const monk = require('monk');
 const db = monk(config.get('mongo.uri'));
 
 test('get most isolated country',() => {
-  missions.getCountriesByIsolation(db)
+  missions.getMostIsolatedCountry(db)
   .then((data) => {
-    expect(data[0].country).toEqual('Morocco')
+    expect(data[0]._id).toEqual('Morocco')
   })
   .catch((err) => {
     console.log(err)
