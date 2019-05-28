@@ -4,6 +4,7 @@ const util = require('util')
 const _ = require('underscore')
 
 const missions = require('../models/missions')
+const distance = require('../lib/distance')
 
 /* GET users listing. */
 router.get('/countries-by-isolation', function(req, res, next) {
@@ -43,9 +44,12 @@ router.get('/most-isolated-country', function(req, res, next) {
 });
 
 router.post('/find-closest', function(req, res, next) {
-  missions.getClosest(req.db,req.body.target)
+  missions.getAll(req.db)
   .then((data) => {
-    res.json(data)
+    return distance.getClosetAndFurthest(req.body.target,data)
+  })
+  .then((distances) => {
+    res.json(distances)
   })
   .catch((err) => {
     res.status(500).send(err)

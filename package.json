@@ -14,8 +14,11 @@
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
     "jest": "^24.8.0",
+    "lodash": "^4.17.11",
     "monk": "^7.0.0",
     "morgan": "~1.9.0",
+    "node-fetch": "^2.6.0",
+    "request": "^2.88.0",
     "underscore": "^1.9.1"
   }
 }

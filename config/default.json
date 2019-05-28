@@ -1,5 +1,8 @@
 {
   "mongo": {
     "uri": "mongodb://localhost:27017/tikal-test"
+  },
+  "google": {
+    "key": "AIzaSyC5eIF2S_V_-TXpgQW_zYMwreM2EY51bsQ"
   }
 }

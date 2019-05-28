@@ -1,8 +1,10 @@
-const missions = require('../models/missions')
 const config = require('config')
 const monk = require('monk');
 const db = monk(config.get('mongo.uri'));
 const util = require('util')
+
+const missions = require('../models/missions')
+const distance = require('../lib/distance')
 
 test('empty db should work',() => {
   missions.empty(db)
@@ -107,6 +109,32 @@ test('get all isolated countries 2nd should be Poland',() => {
   missions.getIsolatedCountries(db)
   .then((data) => {
     expect(data[1]._id).toEqual('Poland')
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+})
+
+test('get closet and furthest to israel should return Poland as closest and Morroco (why not brasil?)',() => {
+  missions.getAll(db)
+  .then((data) => {
+    return distance.getClosetAndFurthest('Israel',data)
+  })
+  .then((distances) => {
+    expect(distances.closest.address).toEqual('Rynek Glowny 12, Krakow')
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+})
+
+test('get closet and furthest to israel should return Morroco as furthest (why not brasil?)',() => {
+  missions.getAll(db)
+  .then((data) => {
+    return distance.getClosetAndFurthest('Israel',data)
+  })
+  .then((distances) => {
+    expect(distances.furthest.address).toEqual('atlas marina beach, agadir')
   })
   .catch((err) => {
     console.log(err)

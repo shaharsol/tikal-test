@@ -68,9 +68,6 @@ module.exports = {
     return result;
 
   },
-  getClosest: function (db,target){
-
-  },
   empty: async function(db){
     let missions = db.get('missions');
     let result = await missions.remove({})
