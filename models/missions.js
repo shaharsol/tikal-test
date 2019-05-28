@@ -4,25 +4,39 @@ module.exports = {
     let all = await missions.find({});
     return all;
   },
-  getIsolatedAgents: async function(db){
+  getIsolatedCountries: async function(db){
     let missions = db.get('missions');
-    let isolatedAgents = missions.aggregate([
+    let result = await missions.aggregate([
       {
         $group: {
           _id: "$agent",
-          count: {$sum: 1}
+          count: {$sum: 1},
+          country: {$first: "$country"}
         }
       },
       {
         $match: {
           count: {$eq: 1}
         }
+      },
+      {
+        $group: {
+          _id: "$country",
+          count: {$sum: 1}
+        }
+      },
+      {
+        $sort: {
+          count: -1
+        }
       }
     ])
+
+    return result;
   },
-  getMostIsolatedCountry: function(db){
+  getMostIsolatedCountry: async function(db){
     let missions = db.get('missions');
-    let result = missions.aggregate([
+    let result = await missions.aggregate([
       {
         $group: {
           _id: "$agent",
@@ -56,5 +70,15 @@ module.exports = {
   },
   getClosest: function (db,target){
 
+  },
+  empty: async function(db){
+    let missions = db.get('missions');
+    let result = await missions.remove({})
+    return result;
+  },
+  load: async function(db,data){
+    let missions = db.get('missions');
+    let result = await missions.insert(data)
+    return result;
   }
 }

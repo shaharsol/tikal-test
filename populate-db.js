@@ -1,28 +1,11 @@
-const missions = require('../models/missions')
+const missions = require('./models/missions')
 const config = require('config')
 const monk = require('monk');
 const db = monk(config.get('mongo.uri'));
 const util = require('util')
 
-test('empty db should work',() => {
-  missions.empty(db)
-  .then((data) => {
-    expect(data).toBeTruthy()
-  })
-  .catch((err) => {
-  })
-})
-
-test('get most isolated country with empty db should return error',() => {
-  missions.getMostIsolatedCountry(db)
-  .then((data) => {
-  })
-  .catch((err) => {
-    expect(err).toBeTruthy()
-  })
-})
-
-test('populate db should insert 10 rows',() => {
+missions.empty(db)
+.then((result) => {
   missions.load(db,[
      {
         agent: '007',
@@ -86,29 +69,13 @@ test('populate db should insert 10 rows',() => {
      }
   ])
   .then((data) => {
-    expect(data.length).toEqual(10)
+    console.log('success')
   })
   .catch((err) => {
     console.log(err)
   })
-})
 
-test('get most isolated country should be Morocco',() => {
-  missions.getMostIsolatedCountry(db)
-  .then((data) => {
-    expect(data[0]._id).toEqual('Morocco')
-  })
-  .catch((err) => {
-    console.log(err)
-  })
 })
-
-test('get all isolated countries 2nd should be Poland',() => {
-  missions.getIsolatedCountries(db)
-  .then((data) => {
-    expect(data[1]._id).toEqual('Poland')
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+.catch((err) => {
+  console.log(err)
 })
