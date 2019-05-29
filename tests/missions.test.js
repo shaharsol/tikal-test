@@ -16,7 +16,7 @@ test('get most isolated country with empty db should return error',() => {
   .then((data) => {
   })
   .catch((err) => {
-    return expect(err).toBeTruthy()
+    expect(err).toBeTruthy()
   })
 })
 
