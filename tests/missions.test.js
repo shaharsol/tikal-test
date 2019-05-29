@@ -6,26 +6,22 @@ const util = require('util')
 const missions = require('../models/missions')
 const distance = require('../lib/distance')
 
-test('empty db should work',() => {
-  missions.empty(db)
-  .then((data) => {
-    expect(data).toBeTruthy()
-  })
-  .catch((err) => {
-  })
+test('empty db should work', async () => {
+  let result = await missions.empty(db)
+  return expect(result).toBeTruthy()
 })
 
 test('get most isolated country with empty db should return error',() => {
-  missions.getMostIsolatedCountry(db)
+  return missions.getMostIsolatedCountry(db)
   .then((data) => {
   })
   .catch((err) => {
-    expect(err).toBeTruthy()
+    return expect(err).toBeTruthy()
   })
 })
 
-test('populate db should insert 10 rows',() => {
-  missions.load(db,[
+test('populate db should insert 10 rows', async () => {
+  let result = await missions.load(db,[
      {
         agent: '007',
         country: 'Brazil',
@@ -87,56 +83,27 @@ test('populate db should insert 10 rows',() => {
         date: 'Dec 1, 2016, 9:21:21 PM'
      }
   ])
-  .then((data) => {
-    expect(data.length).toEqual(10)
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+  return expect(result.length).toEqual(10)
 })
 
-test('get most isolated country should be Morocco',() => {
-  missions.getMostIsolatedCountry(db)
-  .then((data) => {
-    expect(data[0]._id).toEqual('Morocco')
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+test('get most isolated country should be Morocco',async () => {
+  let result = await missions.getMostIsolatedCountry(db)
+  return expect(result[0]._id).toEqual('Morocco')
 })
 
-test('get all isolated countries 2nd should be Poland',() => {
-  missions.getIsolatedCountries(db)
-  .then((data) => {
-    expect(data[1]._id).toEqual('Poland')
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+test('get all isolated countries 2nd should be Poland',async () => {
+  let result = await missions.getIsolatedCountries(db)
+  return expect(result[1]._id).toEqual('Poland')
 })
 
-test('get closet and furthest to israel should return Poland as closest and Morroco (why not brasil?)',() => {
-  missions.getAll(db)
-  .then((data) => {
-    return distance.getClosetAndFurthest('Israel',data)
-  })
-  .then((distances) => {
-    expect(distances.closest.address).toEqual('Rynek Glowny 12, Krakow')
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+test('get closet and furthest to israel should return Poland as closest and Morroco (why not brasil?)',async () => {
+  let data = await missions.getAll(db)
+  let distances = await distance.getClosetAndFurthest('Israel',data)
+  return expect(distances.closest.address).toEqual('Rynek Glowny 12, Krakow')
 })
 
-test('get closet and furthest to israel should return Morroco as furthest (why not brasil?)',() => {
-  missions.getAll(db)
-  .then((data) => {
-    return distance.getClosetAndFurthest('Israel',data)
-  })
-  .then((distances) => {
-    expect(distances.furthest.address).toEqual('atlas marina beach, agadir')
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+test('get closet and furthest to israel should return Morroco as furthest (why not brasil?)',async () => {
+  let data = await missions.getAll(db)
+  let distances = await distance.getClosetAndFurthest('Israel',data)
+  return expect(distances.furthest.address).toEqual('atlas marina beach, agadir')
 })
