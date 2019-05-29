@@ -2,7 +2,9 @@
 
 ### installation
 
-Clone the repo and then `npm install`
+Clone the repo and then `npm install`.
+
+You'll also need a local mongo running on the default port.
 
 ### run the tests
 
