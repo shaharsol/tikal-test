@@ -3,12 +3,12 @@ var router = express.Router();
 const util = require('util')
 const _ = require('underscore')
 
-const missions = require('../models/missions')
-const distance = require('../lib/distance')
+const { getIsolatedCountries,getMostIsolatedCountry,getAll } = require('../models/missions')
+const { getClosetAndFurthest } = require('../lib/distance')
 
 /* GET users listing. */
 router.get('/countries-by-isolation', function(req, res, next) {
-  missions.getIsolatedCountries(req.db)
+  getIsolatedCountries(req.db)
   .then((data) => {
     if(data.length == 0){
       throw('no data')
@@ -27,7 +27,7 @@ router.get('/countries-by-isolation', function(req, res, next) {
 });
 
 router.get('/most-isolated-country', function(req, res, next) {
-  missions.getMostIsolatedCountry(req.db)
+  getMostIsolatedCountry(req.db)
   .then((data) => {
     if(data.length == 0){
       throw('no data')
@@ -44,9 +44,9 @@ router.get('/most-isolated-country', function(req, res, next) {
 });
 
 router.post('/find-closest', function(req, res, next) {
-  missions.getAll(req.db)
+  getAll(req.db)
   .then((data) => {
-    return distance.getClosetAndFurthest(req.body.target,data)
+    return getClosetAndFurthest(req.body.target,data)
   })
   .then((distances) => {
     res.json(distances)
