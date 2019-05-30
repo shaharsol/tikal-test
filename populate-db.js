@@ -1,12 +1,12 @@
-const missions = require('./models/missions')
+const { empty, load } = require('./models/missions')
 const config = require('config')
 const monk = require('monk');
 const db = monk(config.get('mongo.uri'));
 const util = require('util')
 
-missions.empty(db)
-.then((result) => {
-  return missions.load(db,[
+const populate = async () => {
+  await empty(db)
+  await load(db,[
      {
         agent: '007',
         country: 'Brazil',
@@ -68,10 +68,11 @@ missions.empty(db)
         date: 'Dec 1, 2016, 9:21:21 PM'
      }
   ])
-})
-.then(() => {
+}
+
+try{
+  populate();
   console.log('success')
-})
-.catch((err) => {
-  console.log(err)
-})
+} catch(err){
+  console.log('err')
+}
