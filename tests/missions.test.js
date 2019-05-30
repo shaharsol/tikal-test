@@ -11,13 +11,12 @@ test('empty db should work', async () => {
   return expect(result).toBeTruthy()
 })
 
-test('get most isolated country with empty db should return error',() => {
-  return missions.getMostIsolatedCountry(db)
-  .then((data) => {
-  })
-  .catch((err) => {
+test('get most isolated country with empty db should return error', async () => {
+  try{
+    await getMostIsolatedCountry(db)
+  } catch(err){
     expect(err).toBeTruthy()
-  })
+  }
 })
 
 test('populate db should insert 10 rows', async () => {
