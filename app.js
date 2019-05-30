@@ -13,13 +13,14 @@ var app = express();
 const api = require('./api');
 
 // connect to db and make it accessible from req
-const config = require('config');
-const monk = require('monk');
-const db = monk(config.get('mongo.uri'));
-app.use(function(req,res,next){
-    req.db = db;
-    next();
-});
+// const config = require('config');
+// const monk = require('monk');
+// const db = monk(config.get('mongo.uri'));
+const { dbMW } = require('./middlewares/db.middleware.js')
+// app.use(function(req,res,next){
+//     req.db = db;
+//     next();
+// });
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
@@ -32,7 +33,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use('/', missionsRouter);
-app.use('/', api);
+app.use('/', dbMW ,api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
