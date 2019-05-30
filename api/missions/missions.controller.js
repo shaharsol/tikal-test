@@ -43,14 +43,12 @@ const mostIsolatedCountry = async (req,res) => {
 const findClosest = async (req, res) => {
   try{
     const allMissions = await getAll(req.db)
-    const distances = await getClosetAndFurthest(req.body.target,data)
+    const distances = await getClosetAndFurthest(req.body.target,allMissions)
     res.json(distances)
   } catch(err){
     res.status(500).send(err)
   }
 }
-
-
 
 module.exports = {
   countriesByIsolation,
