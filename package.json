@@ -17,7 +17,7 @@
     "lodash": "^4.17.11",
     "monk": "^7.0.0",
     "morgan": "~1.9.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "request": "^2.88.0",
     "underscore": "^1.9.1"
   }
